@@ -32,8 +32,9 @@ function Plugin.config()
   )
 
   -- CALL CLIENT BAHAS
-  require'lspconfig'.rust_analyzer.setup({})
-  require'lspconfig'.lua_ls.setup {}
+  require 'lspconfig'.rust_analyzer.setup{}
+  require 'lspconfig'.lua_ls.setup{}
+  require 'lspconfig'.clangd.setup{}
 
   vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',

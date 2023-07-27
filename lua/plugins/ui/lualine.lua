@@ -1,6 +1,19 @@
 local Plugin = {'nvim-lualine/lualine.nvim'}
 Plugin.dependencies = {'nvim-tree/nvim-web-devicons'}
 
+local function get_lsp_status()
+  local clients = vim.lsp.get_active_clients()
+  if next(clients) == nil then
+    return "lsp: off" -- Jika tidak ada client LSP aktif
+  end
+
+  local status = {}
+  for _, client in pairs(clients) do
+    table.insert(status, client.name)
+  end
+  return table.concat(status, ", ")
+end
+
 Plugin.opts = {
   options = {
     icons_enabled = true,
@@ -23,10 +36,10 @@ Plugin.opts = {
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff'},
-    lualine_c = {'diagnostics'},
+    lualine_c = {{'filename', path = 1}},
     lualine_x = {},
-    --lualine_y = {'progress'},
-    lualine_y = {'location'},
+    lualine_y = {'diagnostics', 'location'},
+    -- lualine_z = {get_lsp_status},
     lualine_z = {
       function()
         return " " .. os.date("%R")

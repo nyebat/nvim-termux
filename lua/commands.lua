@@ -18,53 +18,60 @@ vim.api.nvim_create_autocmd('FileType', {
   command = 'nnoremap <buffer> q <cmd>quit<cr>'
 })
 
- -- disable nomor baris pada TermOpen
+-- disable nomor baris pada TermOpen
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   group = group,
   callback = function()
     vim.cmd('setlocal nonumber')
     vim.cmd('setlocal norelativenumber')
-		vim.api.nvim_feedkeys('i', 'n', false)
+    vim.api.nvim_feedkeys('i', 'n', false)
   end,
 })
 
 -- COMPILE AND RUN
-function compile_and_run()
-	local file_extension = vim.fn.expand('%:e')
-	local filename = vim.fn.expand('%')
-	local output_name = vim.fn.expand('%:r')
-	
-	vim.api.nvim_command(':w')
+function CodeRunner()
+  local file_extension = vim.fn.expand('%:e')
+  local filename = vim.fn.expand('%')
+  local output_name = vim.fn.expand('%:r')
 
-	local compile_command = ''
-	if file_extension == 'rs' then
-		compile_command = 'rustc '..filename..' -o '..output_name
-	elseif file_extension == 'cpp' then
-		compile_command = 'g++ '..filename..' -o '..output_name
-	end
+  vim.api.nvim_command(':w')
 
-	if compile_command ~= '' then
-		vim.fn.system(compile_command)
-		local run_command = 'split term://bash -c ' ..output_name
-		vim.api.nvim_command(run_command)
-		
-		-- Hapus file binari setelah dieksekusi
-    	vim.schedule(function()
-    	  os.remove(output_name)
-    	end)
-	end
+  local compile_command = ''
+  if file_extension == 'rs' then
+    -- c++
+    compile_command = 'rustc '..filename..' -o '..output_name
+  elseif file_extension == 'cpp' then
+    -- rust
+    compile_command = 'g++ '..filename..' -o '..output_name
+  end
+
+  if compile_command ~= '' then
+    vim.fn.system(compile_command)
+    local run_command = 'split term://bash -c ' ..output_name
+    vim.api.nvim_command(run_command)
+
+    -- Hapus file binari setelah dieksekusi
+    vim.schedule(function()
+      os.remove(output_name)
+    end)
+  else
+    print("[Err!] Buffer bukan file cpp atau rust!")
+  end
 
 end
 
-vim.api.nvim_command('command! -nargs=0 Cm lua compile_and_run()')
+vim.api.nvim_command('command! -nargs=0 Cm lua CodeRunner()')
 
 --[[ vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'sh',
+  pattern = 'rs',
   callback = function()
     vim.lsp.start({
-      name = 'bash_ls',
-      cmd = { 'bash-language-server', 'start' },
+      -- name = 'bash_ls',
+      -- cmd = { 'bash-language-server', 'start' },
+      name = 'rust_analyzer',
+      cmd = { 'rust-analyzer', 'start' },
     })
   end,
 }) ]]
+

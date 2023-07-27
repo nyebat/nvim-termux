@@ -43,7 +43,7 @@ map('n', '<leader>tt', ':w | !rustc -o %:r %<CR>')
 map('n', '<leader>yy', ':split term://bash -c %:r<CR>')
 
 -- Close Buffer
---~ map('n', '<leader>c', '<cmd>bdelete<cr>')
+map('n', '<leader>x', '<cmd>Cm<cr>')
 
 --=== PLUGIN ===--
 

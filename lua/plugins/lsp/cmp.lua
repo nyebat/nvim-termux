@@ -44,21 +44,19 @@ function Plugin.config()
     },
     sources = {
       {name = 'path'},
-      {name = 'nvim_lsp', keyword_length = 1},
+      {name = 'nvim_lsp', keyword_length = 2},
       {name = 'luasnip', keyword_length = 1},
-      {name = 'buffer', keyword_length = 1},
+      {name = 'buffer', keyword_length = 3},
     },
     window = {
       documentation = cmp.config.window.bordered(),
       completion = cmp.config.window.bordered(),
-      --[[
-      documentation = {
+      --[[ documentation = {
         border = 'rounded',
         max_height = 15,
         max_width = 50,
         zindex = 50,
-      }
-       --]]
+      } ]]
     },
     formatting = {
       fields = {'menu', 'abbr', 'kind'},
