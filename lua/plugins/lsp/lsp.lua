@@ -35,6 +35,8 @@ function Plugin.config()
   require 'lspconfig'.rust_analyzer.setup{}
   require 'lspconfig'.lua_ls.setup{}
   require 'lspconfig'.clangd.setup{}
+      -- init.lua
+  require'lspconfig'.jdtls.setup{}
 
   vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',
