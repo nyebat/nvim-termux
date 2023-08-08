@@ -1,6 +1,11 @@
 local Plugin = {
     {
-        "folke/tokyonight.nvim", lazy = true,
+        "folke/tokyonight.nvim",
+        lazy = false,
+        --[[ config = function ()
+            require("tokyonight").setup({})
+            vim.cmd[[colorscheme tokyonight-moon]]
+        --end ]]
     },
     {
         "Mofiqul/dracula.nvim",
