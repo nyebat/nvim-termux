@@ -1,5 +1,5 @@
 #!/bin/bash
-apt update && apt upgrade -y
+apt update && apt upgrade
 
 packages() {
     local pkgs=''
@@ -18,13 +18,14 @@ packages() {
 
 setup_nvim() {
     # core
-    local pkgs='git curl wget ripgrep neovim build-essetial'
-    apt install "$pkgs"
+    local pkgs='git curl wget ripgrep neovim build-essential'
+    apt install $pkgs
 
     # backup old nvim config if exist
     local DIR=~/.config/nvim
+	[[ -d $DIR ]] && rm -rf ${DIR}.bak
     [[ -d $DIR ]] && mv $DIR ${DIR}.bak
-    mkdir $DIR && cp -r {.*,*} ${DIR}/
+    mkdir -p $DIR && cp -rf {.*,*} ${DIR}/
 
     # git clone https://github.com/nyebat/nvim-termux $DIR
 }
