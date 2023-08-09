@@ -62,7 +62,7 @@ function CodeRunner()
 
     if compile ~= '' then
         vim.api.nvim_command(':w')
-        -- Compile, Run, and delete binary temp
+        -- compile, run, and delete binary temp
         vim.api.nvim_command('split term://' .. compile .. run .. delTemp)
         -- os.remove(temp)
     else
