@@ -14,7 +14,7 @@ Plugin.opts = {
       return " " .. icon .. count
     end,
     seperator_style = 'slant' or 'padded_slant',
-    show_tab_indicators = true,
+    show_tab_indicators = false,
     show_buffer_close_icons = false,
     show_close_icon = false,
   }

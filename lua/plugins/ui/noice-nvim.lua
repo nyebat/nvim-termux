@@ -1,4 +1,4 @@
--- lazy.nvim
+--lazy.nvim
 local Plugin = {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -21,7 +21,7 @@ local Plugin = {
                 },
             },
             opts = {
-                -- background_colour = "#000000",
+                background_colour = "#000000",
                 timeout = 1500,
                 max_height = function()
                     return math.floor(vim.o.lines * 0.75)
@@ -149,7 +149,7 @@ function Plugin.config()
             -- event is always "notify" and kind can be any log level as a string
             -- The default routes will forward notifications to nvim-notify
             -- Benefit of using Noice for this is the routing and consistent history view
-            enabled = false,
+            enabled = true,
             view = "notify",
         },
         lsp = {

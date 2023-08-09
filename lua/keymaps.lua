@@ -37,11 +37,6 @@ map('n', '<leader>S', '<cmd>luafile %<cr>')
 map('n', '<leader>w', '<cmd>write<cr>')
 map('n', '<leader>q', '<cmd>quit<cr>')
 
--- Run current file cpp
-map('n', '<leader>br', '<cmd>Cm<cr> ')
-map('n', '<leader>tt', ':w | !rustc -o %:r %<CR>')
-map('n', '<leader>yy', ':split term://bash -c %:r<CR>')
-
 -- Close Buffer
 map('n', '<leader>x', '<cmd>Cm<cr>')
 
