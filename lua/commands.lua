@@ -63,6 +63,7 @@ function CodeRunner()
     if compile ~= '' then
         vim.api.nvim_command(':w')
         -- compile, run, and delete binary temp
+		print("masuk ke: " .. temp)
         vim.api.nvim_command('split term://' .. compile .. run .. delTemp)
         -- os.remove(temp)
     else
