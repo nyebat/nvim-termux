@@ -1,13 +1,3 @@
--- Snippet engine
-local Plugin = {'L3MON4D3/LuaSnip'}
-
-Plugin.dependencies = {
-  {'VonHeikemen/the-good-snippets'}
-}
-
-Plugin.lazy = true
-
-function Plugin.config()
   local luasnip = require('luasnip')
   local snippets = require('luasnip.loaders.from_vscode')
 
@@ -23,7 +13,3 @@ function Plugin.config()
   if vim.fn.argc() > 0 and filetype ~= '' then
     snippets.load({include = {filetype}})
   end
-end
-
-return Plugin
-

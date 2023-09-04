@@ -11,9 +11,9 @@ local map = vim.keymap.set
 
 -- Shortcuts
 -- go to homeline
-map({'n', 'x', 'o'}, '<leader>h', '^')
+map({ 'n', 'x', 'o' }, '<leader>h', '^')
 -- goto endline
-map({'n', 'x', 'o'}, '<leader>l', 'g_')
+map({ 'n', 'x', 'o' }, '<leader>l', 'g_')
 --~ -- seleck all text
 map('n', '<leader>a', ':keepjumps normal! ggVG<cr>')
 map('n', '<leader>t', 'ggVG=<cr>')
@@ -24,11 +24,11 @@ map('n', '<leader>t', 'ggVG=<cr>')
 map('n', '<leader>uh', '<cmd>nohlsearch<cr>')
 
 -- Basic clipboard interaction
-map({'n', 'x'}, 'cp', '"+y')
-map({'n', 'x'}, 'cv', '"+p')
+map({ 'n', 'x' }, 'cp', '"+y')
+map({ 'n', 'x' }, 'cv', '"+p')
 
 -- Delete text
-map({'n', 'x'}, 'x', '"_x')
+map({ 'n', 'x' }, 'x', '"_x')
 
 -- Reload config
 map('n', '<leader>S', '<cmd>luafile %<cr>')

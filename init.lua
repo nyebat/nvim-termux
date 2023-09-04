@@ -1,7 +1,3 @@
--- [[ GLOBALL SETTINGS ]]
+require("core")
 
-require('commands')
-require('keymaps')
-require('editor')
-require('lazy-config')
 
