@@ -26,9 +26,9 @@ local Plugin = {
 
     dashboard.section.header.val = logo --vim.split(logo, "\n")
     dashboard.section.buttons.val = {
+      dashboard.button("h", " " .. " Recent files", ":Telescope oldfiles <CR>"),
       dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
       dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
-      dashboard.button("h", " " .. " Recent files", ":Telescope oldfiles <CR>"),
       dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
       dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
       --dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
@@ -42,7 +42,7 @@ local Plugin = {
     dashboard.section.header.opts.hl = "AlphaHeader"
     dashboard.section.buttons.opts.hl = "AlphaButtons"
     dashboard.section.footer.opts.hl = "AlphaFooter"
-    dashboard.opts.layout[1].val = 8
+    dashboard.opts.layout[1].val = 3
     vim.keymap.set('n', '<leader>fa', '<cmd>:Alpha<cr>')
     return dashboard
   end,

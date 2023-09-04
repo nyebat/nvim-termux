@@ -1,0 +1,74 @@
+-- [[ COMMANDS ]]
+local group = vim.api.nvim_create_augroup('user_cmds', {clear = true})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+    desc = 'Highlight on yank',
+    group = group,
+    callback = function()
+        vim.highlight.on_yank({higroup = 'Visual', timeout = 200})
+    end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = {'help', 'man'},
+    group = group,
+    command = 'nnoremap <buffer> q <cmd>quit<cr>'
+})
+
+-- disable nomor baris pada TermOpen
+vim.api.nvim_create_autocmd('TermOpen', {
+    pattern = '*',
+    group = group,
+    callback = function()
+        vim.cmd('setlocal nonumber')
+        vim.cmd('setlocal norelativenumber')
+        vim.api.nvim_feedkeys('i', 'n', false)
+    end,
+})
+
+-- COMPILE AND RUN
+function CodeRunner()
+    local source = vim.fn.expand('%')
+    local temp = vim.fn.expand('%:r') -- get pathfile/filename (without ekstension)
+    local fileType = vim.fn.expand('%:e')
+    local fileName = vim.fn.expand('%:t:r')
+
+    local compile = ''
+    local run = ''
+    local delTemp = ' && rm -rf ' .. temp
+    local command = ''
+
+    if fileType == 'rs' then
+        -- rust
+        source = vim.fn.expand('%:p:h')
+        command = 'cd ' .. source .. ' && cargo run'
+    elseif fileType == 'cpp' then
+        -- c++
+        compile = 'g++ ' .. source .. ' -o ' .. temp
+        run = ' && ' .. temp
+        command = compile .. run .. delTemp
+    elseif fileType == 'java' then
+        -- java
+        compile = 'javac ' .. source .. ' -d ' .. temp
+        run = ' && cd ' .. temp .. ' && java ' .. fileName
+        delTemp = ' && cd $HOME && rm -rf ' .. temp
+        command = compile .. run .. delTemp
+    elseif fileType == 'kt' then
+        -- kotlin
+        temp = temp .. '.jar'
+        compile = 'kotlinc ' .. source .. ' -include-runtime -d ' .. temp
+        run = ' && java -jar ' .. temp
+        delTemp = ' && rm -rf ' .. temp
+        command = compile .. run .. delTemp
+    end
+
+    if command ~= '' then
+        vim.api.nvim_command(':w')
+        vim.api.nvim_command('split term://' .. command)
+    else
+        print('\n[Err!] Buffer bukan file C++, Rust, Java, atau Kotlin!\n')
+    end
+end
+
+vim.api.nvim_command('command! -nargs=0 Cm lua CodeRunner()')
+
