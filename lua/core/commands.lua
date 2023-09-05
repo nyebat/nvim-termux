@@ -27,40 +27,42 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 -- COMPILE AND RUN
 function CodeRunner()
-	local source = vim.fn.expand('%')
-	local temp = vim.fn.expand('%:r') -- get pathfile/filename (without ekstension)
-	local typeFile = vim.fn.expand('%:e')
-	local nameFile = vim.fn.expand('%:t:r')
+	local get = {
+		src = vim.fn.expand('%'), -- get full path
+		temp = vim.fn.expand('%:r'), -- get full path without ekstension
+		type = vim.fn.expand('%:e'), -- get ekstension of buffer
+		name = vim.fn.expand('%:t:r'), -- get a name of buffer
+	}
 
 	local M = {
 		rs = {
 			run = 'cd ' .. vim.fn.expand('%:h') .. ' && cargo run',
 		},
 		cpp = {
-			compile = 'g++ ' .. source .. ' -o ' .. temp,
-			run = ' && ' .. temp,
-			delTemp = ' && rm -rf ' .. temp
+			compile = string.format("g++ %s -o %s ", get.src, get.temp),
+			run = string.format("&& %s ", get.temp),
+			delTemp = string.format("&& rm -rf %s", get.temp)
 		},
 		java = {
-			compile = 'javac ' .. source .. ' -d ' .. temp,
-			run = ' && cd ' .. temp .. ' && java ' .. nameFile,
-			delTemp = ' && cd $HOME && rm -rf ' .. temp,
+			compile = string.format("javac %s -d %s ", get.src, get.temp),
+			run = string.format("&& cd %s && java %s ", get.temp, get.name),
+			delTemp = string.format("&& cd $HOME && rm -rf %s", get.temp),
 		},
 		kt = {
-			compile = 'kotlinc ' .. source .. ' -include-runtime -d ' .. temp .. '.jar',
-			run = ' && java -jar ' .. temp .. '.jar',
-			delTemp = ' && rm -rf ' .. temp .. '.jar',
+			compile = string.format("kotlinc %s -include-runtime -d %s.jar ", get.src, get.temp),
+			run = string.format("&& java -jar %s.jar ", get.temp),
+			delTemp = string.format("&& rm -rf %s.jar", get.temp),
 		},
 	}
 
 	local run = ''
-	if M[typeFile] then
-		if M[typeFile].compile then run = M[typeFile].compile end
-		if M[typeFile].run then run = run .. M[typeFile].run end
-		if M[typeFile].delTemp then run = run .. M[typeFile].delTemp end
+	if M[get.type] then
+		if M[get.type].compile then run = M[get.type].compile end
+		if M[get.type].run then run = run .. M[get.type].run end
+		if M[get.type].delTemp then run = run .. M[get.type].delTemp end
 	else
 		print('\n[Err!] Buffer bukan file C++, Rust, Java, atau Kotlin!\n')
-	 	return
+		return
 	end
 
 	if run ~= '' then

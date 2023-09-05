@@ -11,7 +11,7 @@ if not status_ok_1 then
 	return
 end
 
--- setup off line (client native system)
+-- setup offline (client native system)
 local servers = {
 	"rust_analyzer",
 	"clangd",
@@ -35,7 +35,11 @@ local settings = {
 
 mason.setup(settings)
 mason_lspconfig.setup {
+	--[[ uncomment if install client via mason
+	comment if install client via system package manager (native) ]]
+
 	-- ensure_installed = servers,
+
 	automatic_installation = false,
 }
 
@@ -61,4 +65,3 @@ for _, server in pairs(servers) do
 	-- pass them to lspconfig
 	lspconfig[server].setup(opts)
 end
-
