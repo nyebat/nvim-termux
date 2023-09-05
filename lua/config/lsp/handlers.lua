@@ -11,36 +11,17 @@ if not status_cmp_ok then
 	return
 end
 
--- setuup for client
-local function call_client()
-	local lspconfig = require('lspconfig')
-	local lsp_defaults = lspconfig.util.default_config
-
-	lsp_defaults.capabilities = vim.tbl_deep_extend(
-		'force',
-		lsp_defaults.capabilities,
-		require('cmp_nvim_lsp').default_capabilities()
-	)
-
-	-- CALL CLIENT BAHAS
-	require 'lspconfig'.rust_analyzer.setup{}
-	require 'lspconfig'.lua_ls.setup{}
-	require 'lspconfig'.clangd.setup{}
-	-- init.lua
-	require'lspconfig'.jdtls.setup{}
-end
-
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 -- Here we declare the setup function and add the modifications in signs and extra configs, like virtual text, false update_in_insert, rounded borders for float windows, etc.
 M.setup = function()
 	local signs = {
-		-- change the "?" to an icon that you like  
-		{name = 'DiagnosticSignError', text = '✘'},
-		{name = 'DiagnosticSignWarn', text = '▲'},
-		{name = 'DiagnosticSignHint', text = '⚑'},
-		{name = 'DiagnosticSignInfo', text = ''},
+		-- change the "?" to an icon that you like
+		{ name = 'DiagnosticSignError', text = '✘' },
+		{ name = 'DiagnosticSignWarn', text = '▲' },
+		{ name = 'DiagnosticSignHint', text = '⚑' },
+		{ name = 'DiagnosticSignInfo', text = '' },
 	}
 
 	for _, sign in ipairs(signs) do
@@ -65,14 +46,13 @@ M.setup = function()
 
 	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
 		vim.lsp.handlers.hover,
-		{border = 'rounded'}
+		{ border = 'rounded' }
 	)
 
 	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
 		vim.lsp.handlers.signature_help,
-		{border = 'rounded'}
+		{ border = 'rounded' }
 	)
-	call_client()
 end
 
 -- Here we set up keymaps. You can change them if you already have specifics for these functions, or just want to try another keymap.
@@ -93,14 +73,14 @@ local function lsp_keymaps(bufnr)
 	-- Jumps to the definition of the type symbol
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
 
-	-- Lists all the references 
+	-- Lists all the references
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
 
 	-- Displays a function's signature information
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
 
 	-- Renames all references to the symbol under the cursor
-	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', 'glr', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 
 	-- Selects a code action available at the current cursor position
@@ -118,7 +98,6 @@ local function lsp_keymaps(bufnr)
 
 
 	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format()' ]])
-
 end
 
 -- Here we let the LSP prioritize null-ls formatters. Why? Normally when we install a separate formatter or linter in null-ls we want to use just them.
@@ -139,7 +118,7 @@ M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
 
 	if client.supports_method("textDocument/formatting") then
-		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })    
+		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			group = augroup,
 			buffer = bufnr,
@@ -183,9 +162,8 @@ end
 vim.cmd [[ command! LspToggleAutoFormat execute 'lua ]]
 
 -- Toggle "format on save" once, to start with the format on.
---M.toggle_format_on_save()
-
-M.disable_format_on_save()
+M.toggle_format_on_save()
+-- M.disable_format_on_save()
 
 
 

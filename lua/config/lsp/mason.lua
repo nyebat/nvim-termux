@@ -11,11 +11,12 @@ if not status_ok_1 then
 	return
 end
 
+-- setup off line (client native system)
 local servers = {
-	-- "rust_analyzer",
-	-- "clangd",
-	-- "jdtls",
-	-- "lua_ls",
+	"rust_analyzer",
+	"clangd",
+	"jdtls",
+	"lua_ls",
 }
 
 -- Here we declare which settings to pass to the mason, and also ensure servers are installed. If not, they will be installed automatically.
@@ -34,7 +35,7 @@ local settings = {
 
 mason.setup(settings)
 mason_lspconfig.setup {
-	ensure_installed = servers,
+	-- ensure_installed = servers,
 	automatic_installation = false,
 }
 

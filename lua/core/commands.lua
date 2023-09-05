@@ -32,39 +32,42 @@ function CodeRunner()
 	local typeFile = vim.fn.expand('%:e')
 	local nameFile = vim.fn.expand('%:t:r')
 
-	local compile = ''
+	local M = {
+		rs = {
+			run = 'cd ' .. vim.fn.expand('%:h') .. ' && cargo run',
+		},
+		cpp = {
+			compile = 'g++ ' .. source .. ' -o ' .. temp,
+			run = ' && ' .. temp,
+			delTemp = ' && rm -rf ' .. temp
+		},
+		java = {
+			compile = 'javac ' .. source .. ' -d ' .. temp,
+			run = ' && cd ' .. temp .. ' && java ' .. nameFile,
+			delTemp = ' && cd $HOME && rm -rf ' .. temp,
+		},
+		kt = {
+			compile = 'kotlinc ' .. source .. ' -include-runtime -d ' .. temp .. '.jar',
+			run = ' && java -jar ' .. temp .. '.jar',
+			delTemp = ' && rm -rf ' .. temp .. '.jar',
+		},
+	}
+
 	local run = ''
-	local delTemp = ' && rm -rf ' .. temp
-
-	if typeFile == 'rs' then
-		-- rust
-		compile = 'rustc ' .. source .. ' -o ' .. temp
-		run = ' && ' .. temp
-	elseif typeFile == 'cpp' then
-		-- c++
-		compile = 'g++ ' .. source .. ' -o ' .. temp
-		run = ' && ' .. temp
-	elseif typeFile == 'java' then
-		-- java
-		compile = 'javac ' .. source .. ' -d ' .. temp
-		run = ' && cd ' .. temp .. ' && java ' .. nameFile
-		delTemp = ' && cd $HOME && rm -rf ' .. temp
-	elseif typeFile == 'kt' then
-		-- kotlin
-		temp = temp .. '.jar'
-		compile = 'kotlinc ' .. source .. ' -include-runtime -d ' .. temp
-		run = ' && java -jar ' .. temp
-		delTemp = ' && rm -rf ' .. temp
-	end
-
-	if compile ~= '' then
-		vim.api.nvim_command(':w')
-		-- compile, run, and delete binary temp
-		print("masuk ke: " .. temp)
-		vim.api.nvim_command('split term://' .. compile .. run .. delTemp)
-		-- os.remove(temp)
+	if M[typeFile] then
+		if M[typeFile].compile then run = M[typeFile].compile end
+		if M[typeFile].run then run = run .. M[typeFile].run end
+		if M[typeFile].delTemp then run = run .. M[typeFile].delTemp end
 	else
 		print('\n[Err!] Buffer bukan file C++, Rust, Java, atau Kotlin!\n')
+	 	return
+	end
+
+	if run ~= '' then
+		-- save file
+		vim.api.nvim_command(':w')
+		-- compile, run, and delete binary temp
+		vim.api.nvim_command('split term://' .. run)
 	end
 end
 

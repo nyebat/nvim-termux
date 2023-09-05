@@ -1,11 +1,11 @@
-
 local M = {
 	-- color schemes
-	{ "folke/tokyonight.nvim",lazy = false,	},
-	{ "Mofiqul/dracula.nvim", lazy = false,	},
+	{ "folke/tokyonight.nvim", lazy = false, },
+	{ "Mofiqul/dracula.nvim",  lazy = false, },
 
-	-- cursor jump
-	{ 'DanilaMihailov/beacon.nvim', event = "BufRead",
+	{ -- cursor jump
+		'DanilaMihailov/beacon.nvim',
+		event = "BufRead",
 		config = function()
 			vim.cmd([[highlight Beacon guibg=white ctermbg=15]])
 			vim.g.beacon_size = 18
@@ -16,8 +16,7 @@ local M = {
 		end
 	},
 
-	-- indent
-	{
+	{ -- indent
 		'lukas-reineke/indent-blankline.nvim',
 		dependencies = {
 			"echasnovski/mini.indentscope",
@@ -26,14 +25,12 @@ local M = {
 		}
 	},
 
-	-- lua line
-	{
+	{ -- lua line
 		'nvim-lualine/lualine.nvim',
 		dependencies = 'nvim-tree/nvim-web-devicons',
 	},
 
-	-- barbeque
-	{
+	{ -- barbeque
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
 		version = "*",
@@ -43,11 +40,10 @@ local M = {
 		},
 	},
 
-	-- color palet
-	{
+	{ -- color palet
 		'norcalli/nvim-colorizer.lua',
 		config = function()
-			require'colorizer'.setup()
+			require 'colorizer'.setup()
 		end
 	},
 }
