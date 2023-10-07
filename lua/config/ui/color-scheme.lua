@@ -30,11 +30,11 @@ require("dracula").setup({
 	-- show the '~' characters after the end of buffers
 	show_end_of_buffer = true, -- default false
 	-- use transparent background
-	transparent_bg = false, -- default false
+	transparent_bg = true,     -- default false
 	-- set custom lualine background color
 	lualine_bg_color = "#44475a", -- default nil
 	-- set italic comment
-	italic_comment = false, -- default false
+	italic_comment = false,    -- default false
 	-- overrides the default highlights with table see `:h synIDattr`
 	overrides = {},
 	-- You can use overrides as table like this
@@ -51,5 +51,5 @@ require("dracula").setup({
 	-- end,
 })
 
---vim.cmd("colorscheme tokyonight")
+-- vim.cmd("colorscheme tokyonight")
 vim.cmd("colorscheme dracula")

@@ -38,7 +38,7 @@ map('n', '<leader>w', '<cmd>write<cr>')
 map('n', '<leader>q', '<cmd>quit<cr>')
 
 -- Close Buffer
-map('n', '<leader>x', '<cmd>Cm<cr>')
+map('n', '<leader>x', '<cmd>BuffRun<cr>')
 
 --=== PLUGIN ===--
 

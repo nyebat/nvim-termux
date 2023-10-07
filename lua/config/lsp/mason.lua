@@ -39,7 +39,6 @@ mason_lspconfig.setup {
 	comment if install client via system package manager (native) ]]
 
 	-- ensure_installed = servers,
-
 	automatic_installation = false,
 }
 

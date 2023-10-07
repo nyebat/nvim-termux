@@ -1,6 +1,6 @@
 require("config.utils.alpha")
-require("config.utils.nvim-tree")
+require("config.utils.nvim-tree").setup()
 require("config.utils.telescope")
-require("config.utils.luasnip")
+require("config.utils.cmp_luasnip")
 require("config.utils.bufferline")
 require("config.utils.toggleterm")

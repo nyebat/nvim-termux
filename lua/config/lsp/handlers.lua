@@ -127,6 +127,13 @@ M.on_attach = function(client, bufnr)
 			end,
 		})
 	end
+
+	local status_navic_ok, nvim_navic = pcall(require, "nvim-navic")
+	if status_navic_ok then
+		if client.server_capabilities["documentSymbolProvider"] then
+			nvim_navic.attach(client, bufnr)
+		end
+	end
 end
 
 -- And finally, here we create a way to toggle format on save with the command "LspToggleAutoFormat" and after everything, we return the M object to use it in other files.
@@ -162,9 +169,7 @@ end
 vim.cmd [[ command! LspToggleAutoFormat execute 'lua ]]
 
 -- Toggle "format on save" once, to start with the format on.
-M.toggle_format_on_save()
--- M.disable_format_on_save()
-
-
+-- M.toggle_format_on_save()
+M.disable_format_on_save()
 
 return M

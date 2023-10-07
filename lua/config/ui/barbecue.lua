@@ -1,13 +1,19 @@
+local status_ok, barbecue = pcall(require, "barbecue")
+
+if not status_ok then
+	return
+end
+
 -- triggers CursorHold event faster
 vim.opt.updatetime = 200
 
-require("barbecue").setup({
-    ---Whether to create winbar updater autocmd.
+barbecue.setup({
+	---Whether to create winbar updater autocmd.
 	---
 	---@type boolean
 	create_autocmd = false, -- prevent barbecue from updating itself automatically
 
-    ---Whether to attach navic to language servers automatically.
+	---Whether to attach navic to language servers automatically.
 	---
 	---@type boolean
 	attach_navic = true,
