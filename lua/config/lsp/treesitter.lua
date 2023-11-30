@@ -28,7 +28,7 @@ require('nvim-treesitter.configs').setup({
 
         end,
     },
-    context_commentstring = {
+    --[[ context_commentstring = {
         enable = true,
         enable_autocmd = false,
         config = {
@@ -42,7 +42,7 @@ require('nvim-treesitter.configs').setup({
             json = "",
             rust = "/* %s */",
         },
-    },
+    }, ]]
     indent = { enable = true, disable = { "yaml", "python" } },
     autotag = { enable = false },
     textobjects = {

@@ -56,10 +56,6 @@ function BuffRunner()
 			run = string.format('&& java -jar %s.jar ', get.dest),
 			delTemp = string.format('&& rm -rf %s.jar', get.dest),
 		},
-		sh = {
-			compile = string.format('chmod +x %s', get.src),
-			run = string.format('&& ./%s', get.src)
-		}
 	}
 
 	local cmd = ''
@@ -81,4 +77,5 @@ function BuffRunner()
 		vim.api.nvim_command('split term://' .. cmd)
 	end
 end
+
 vim.api.nvim_command('command! -nargs=0 BuffRun lua BuffRunner()')

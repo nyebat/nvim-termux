@@ -154,13 +154,13 @@ local opts = {
 		},
 	},
 
-	server = {
+	server = { -- rust-analyzer options
 		on_attach = require("config.lsp.handlers").on_attach,
 		capabilities = require("config.lsp.handlers").capabilities,
 		-- standalone file support
 		-- setting it to false may improve startup time
 		standalone = false,
-	}, -- rust-analyzer options
+	},
 
 	-- debugging stuff
 	dap = {
@@ -174,7 +174,7 @@ local opts = {
 
 local rt = require('rust-tools')
 rt.setup(opts)
-rt.inlay_hints.enable()
+-- rt.inlay_hints.enable()
 
 -- Hover action
 vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
