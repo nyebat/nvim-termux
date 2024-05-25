@@ -169,7 +169,7 @@ end
 vim.cmd [[ command! LspToggleAutoFormat execute 'lua ]]
 
 -- Toggle "format on save" once, to start with the format on.
--- M.toggle_format_on_save()
-M.disable_format_on_save()
+M.toggle_format_on_save()
+ --[[ M.disable_format_on_save() ]]
 
 return M

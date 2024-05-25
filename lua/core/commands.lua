@@ -30,37 +30,72 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- compile and run
 function BuffRunner()
 	local get = {
-		src = vim.fn.expand('%'), --path file
-		dest = vim.fn.expand('%:r'), --path file without ekstension
-		type = vim.fn.expand('%:e'), --ekstension
-		name = vim.fn.expand('%:t:r'), --file name
+		src = vim.fn.expand('%'), --path of buffer file
+		dest = vim.fn.expand('%:r'), --path buff without file ekstension
+		type = vim.fn.expand('%:e'), --ekstension only
+		name = vim.fn.expand('%:t:r'), --file name of buffer
 	}
 
 	local Buffer = {
+		--[[ BASH ]]
+		sh = {
+			run = 'bash ' .. get.src
+		},
+		--[[ RUSTLANG ]]
 		rs = {
-			run = 'cd ' .. vim.fn.expand('%:h') .. ' && cargo run',
-			delTemp = ' && sleep 0.3 && cargo clean',
+			run = 'cd ' .. vim.fn.expand('%:h') .. ' && cargo run -q',
+			delTemp = ' && sleep 0.1 && cargo clean',
 		},
+		--[[ C++ ]]
 		cpp = {
-			compile = string.format('g++ %s -o %s ', get.src, get.dest),
-			run = string.format('&& %s ', get.dest),
-			delTemp = string.format('&& rm -rf %s', get.dest)
+			compile = string.format(
+				'g++ %s -o %s ',
+				get.src, get.dest
+			),
+			run = string.format(
+				'&& %s ',
+				get.dest
+			),
+			delTemp = string.format(
+				'&& rm -rf %s',
+				get.dest
+			)
 		},
+		--[[ JAVA ]]
 		java = {
-			compile = string.format('javac %s -d %s ', get.src, get.dest),
-			run = string.format('&& cd %s && java %s ', get.dest, get.name),
-			delTemp = string.format('&& cd $HOME && rm -rf %s', get.dest),
+			compile = string.format(
+				'javac %s -d %s ',
+				get.src, get.dest
+			),
+			run = string.format(
+				'&& cd %s && java %s ',
+				get.dest, get.name
+			),
+			delTemp = string.format(
+				'&& cd $HOME && rm -rf %s',
+				get.dest
+			),
 		},
+		--[[ KOTLIN ]]
 		kt = {
-			compile = string.format('kotlinc %s -include-runtime -d %s.jar ', get.src, get.dest),
-			run = string.format('&& java -jar %s.jar ', get.dest),
-			delTemp = string.format('&& rm -rf %s.jar', get.dest),
+			compile = string.format(
+				'kotlinc %s -include-runtime -d %s.jar ',
+				get.src, get.dest
+			),
+			run = string.format(
+				'&& java -jar %s.jar ',
+				get.dest
+			),
+			delTemp = string.format(
+				'&& rm -rf %s.jar',
+				get.dest
+			),
 		},
 	}
 
 	local cmd = ''
 	if Buffer[get.type] then
-		for _, action in ipairs({'compile', 'run', 'delTemp'}) do
+		for _, action in ipairs({ 'compile', 'run', 'delTemp' }) do
 			if Buffer[get.type][action] then
 				cmd = cmd .. Buffer[get.type][action]
 			end

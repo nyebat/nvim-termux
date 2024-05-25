@@ -5,7 +5,7 @@ local M = {
 
 	{ -- cursor jump
 		'DanilaMihailov/beacon.nvim',
-		event = "BufRead",
+		event = "BufReadPre",
 		config = function()
 			vim.cmd([[highlight Beacon guibg=white ctermbg=15]])
 			vim.g.beacon_size = 18
